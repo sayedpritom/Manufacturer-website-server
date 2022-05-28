@@ -40,6 +40,20 @@ async function run() {
             })
         }
 
+        // create user in mongodb and issue jwt token for client
+        app.put('/user/:email', async (req, res) => {
+            const email = req.params.email;
+            const user = req.body;
+            const filter = { email: email };
+            const options = { upsert: true };
+            const updatedDoc = {
+                $set: user,
+            }
+            const result = await userCollection.updateOne(filter, updatedDoc, options);
+            const token = jwt.sign({ email: email }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1d' })
+            res.send({ result, token })
+        })
+
         // get all parts/item
         app.get('/parts', async (req, res) => {
             const result = partsCollection.find({});
