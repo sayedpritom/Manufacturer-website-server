@@ -50,7 +50,20 @@ async function run() {
             }
         }
 
-        // api for admin verification to be used in client side
+        // create user in mongodb and issue jwt token for client
+        app.put('/user/:email', async (req, res) => {
+            const email = req.params.email;
+            const user = req.body;
+            const filter = { email: email };
+            const options = { upsert: true };
+            const updatedDoc = {
+                $set: user,
+            }
+            const result = await userCollection.updateOne(filter, updatedDoc, options);
+            const token = jwt.sign({ email: email }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1d' })
+            res.send({ result, token })
+        })
+
         app.get('/admin/:email', async (req, res) => {
             const email = req.params.email;
             const user = await userCollection.findOne({ email: email });
@@ -74,20 +87,6 @@ async function run() {
             res.send(result)
         })
 
-        // create user in mongodb and issue jwt token for client
-        app.put('/user/:email', async (req, res) => {
-            const email = req.params.email;
-            const user = req.body;
-            const filter = { email: email };
-            const options = { upsert: true };
-            const updatedDoc = {
-                $set: user,
-            }
-            const result = await userCollection.updateOne(filter, updatedDoc, options);
-            const token = jwt.sign({ email: email }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1d' })
-            res.send({ result, token })
-        })
-
         // get all parts/item
         app.get('/parts', async (req, res) => {
             const result = partsCollection.find({});
@@ -101,6 +100,7 @@ async function run() {
             res.send(result)
         })
 
+        // get all orders for a particular user
         app.get('/orders/:email', verifyJWT, async (req, res) => {
             const email = req.params.email;
             const filter = { email: email };
@@ -183,6 +183,7 @@ async function run() {
             res.send(result)
         })
 
+
         // get user's details from server 
         app.get('/userDetails/:email', verifyJWT, async (req, res) => {
             const email = req.params.email;
@@ -190,7 +191,6 @@ async function run() {
             const result = await userDetailsCollection.findOne(query);
             res.send(result)
         })
-
 
     } finally {
 
