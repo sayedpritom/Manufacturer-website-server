@@ -95,6 +95,11 @@ async function run() {
             res.send(parts)
         })
 
+        // get all orders 
+        app.get('/allOrders', verifyJWT, async (req, res) => {
+            const result = await ordersCollection.find().toArray();
+            res.send(result)
+        })
 
         app.get('/orders/:email', verifyJWT, async (req, res) => {
             const email = req.params.email;
