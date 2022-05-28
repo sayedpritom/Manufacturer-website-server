@@ -174,6 +174,15 @@ async function run() {
             res.send(result)
         })
 
+        // delete a certain product
+        app.delete('/item/:id', verifyJWT, async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) }
+            const result = await partsCollection.deleteOne(query);
+            console.log(result)
+            res.send(result)
+        })
+
     } finally {
 
     }
