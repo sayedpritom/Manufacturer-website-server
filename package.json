@@ -1,7 +1,7 @@
 {
   "name": "manufacturer-website-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "\"# manufacturer-website-server-side-sayedpritom999\"",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -19,5 +19,14 @@
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^4.6.0",
     "nodemon": "^2.0.16"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/programming-hero-web-course1/manufacturer-website-server-side-sayedpritom999.git"
+  },
+  "bugs": {
+    "url": "https://github.com/programming-hero-web-course1/manufacturer-website-server-side-sayedpritom999/issues"
+  },
+  "homepage": "https://github.com/programming-hero-web-course1/manufacturer-website-server-side-sayedpritom999#readme"
 }
