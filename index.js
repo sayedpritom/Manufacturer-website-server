@@ -20,6 +20,25 @@ async function run() {
         const ordersCollection = client.db("manufacturer-website").collection("orders");
         const reviewsCollection = client.db("manufacturer-website").collection("reviews");
         const userDetailsCollection = client.db("manufacturer-website").collection("userDetails");
+        const userCollection = client.db("manufacturer-website").collection("users");
+
+
+        const verifyJWT = (req, res, next) => {
+            const authHeader = req.headers.authorization;
+            if (!authHeader) {
+                return res.status(401).send({ message: 'Unauthorized Access' })
+            }
+
+            const token = authHeader.split(' ')[1];
+
+            jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, function (err, decoded) {
+                if (err) {
+                    return res.status(403).send({ message: 'Forbidden Access' })
+                }
+                req.decoded = decoded;
+                next();
+            })
+        }
 
         // get all parts/item
         app.get('/parts', async (req, res) => {
@@ -28,8 +47,8 @@ async function run() {
             res.send(parts)
         })
 
-        // get all orders for a particular user
-        app.get('/orders/:email', async (req, res) => {
+
+        app.get('/orders/:email', verifyJWT, async (req, res) => {
             const email = req.params.email;
             const filter = { email: email };
             const result = await ordersCollection.find(filter).toArray();
@@ -45,7 +64,7 @@ async function run() {
         })
 
         // delete a specific order from ordersCollection
-        app.delete('/delete/:id', async (req, res) => {
+        app.delete('/delete/:id', verifyJWT, async (req, res) => {
             const id = req.params.id;
             const filter = { _id: ObjectId(id) }
             const result = ordersCollection.deleteOne(filter);
@@ -53,14 +72,14 @@ async function run() {
         })
 
         // upload order to server. If already exists then replace the item
-        app.post('/order', async (req, res) => {
+        app.post('/order', verifyJWT, async (req, res) => {
             const order = req.body;
             const result = await ordersCollection.insertOne(order);
             res.send(result)
         })
 
         // upload review to server
-        app.post('/addReview', async (req, res) => {
+        app.post('/addReview', verifyJWT, async (req, res) => {
             const review = req.body;
             const result = await reviewsCollection.insertOne(review);
             res.send(result)
@@ -72,13 +91,13 @@ async function run() {
             res.send(result)
         })
         // upload user's details to server
-        app.put('/userDetails/:email', async (req, res) => {
+        app.put('/userDetails/:email', verifyJWT, async (req, res) => {
             const data = req.body;
             const email = req.params.email;
             const filter = { email: email };
 
             const options = { upsert: true };
-            const updateDoc = {
+            const updatedDoc = {
                 $set: {
                     education: data.education,
                     phone: data.phone,
@@ -86,19 +105,12 @@ async function run() {
                     linkedIn: data.linkedIn,
                 },
             };
-            const result = await userDetailsCollection.updateOne(filter, updateDoc, options);
+            const result = await userDetailsCollection.updateOne(filter, updatedDoc, options);
             res.send(result)
             console.log(
                 `${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`,
             );
         })
-
-        // get user's details from server 
-        app.get('/userDetails', async (req, res) => {
-            const result = await userDetailsCollection.find({}).toArray();
-            res.send(result)
-        })
-
 
     } finally {
 
