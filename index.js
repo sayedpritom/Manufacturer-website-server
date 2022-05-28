@@ -40,6 +40,16 @@ async function run() {
             })
         }
 
+        const verifyAdmin = async (req, res, next) => {
+            const requester = req.decoded.email;
+            const requestedAccount = await userCollection.findOne({ email: requester });
+            if (requestedAccount.role === 'admin') {
+                next();
+            } else {
+                res.status(403).send({ message: 'Forbidden' })
+            }
+        }
+
         // create user in mongodb and issue jwt token for client
         app.put('/user/:email', async (req, res) => {
             const email = req.params.email;
