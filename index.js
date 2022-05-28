@@ -183,6 +183,15 @@ async function run() {
             res.send(result)
         })
 
+        // get user's details from server 
+        app.get('/userDetails/:email', verifyJWT, async (req, res) => {
+            const email = req.params.email;
+            const query = { email: email };
+            const result = await userDetailsCollection.findOne(query);
+            res.send(result)
+        })
+
+
     } finally {
 
     }
