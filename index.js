@@ -165,6 +165,15 @@ async function run() {
             );
         })
 
+        // upload new product to server
+        app.post('/addProduct', verifyJWT, async (req, res) => {
+            const data = req.body;
+            console.log(data)
+            const result = await partsCollection.insertOne(data);
+            console.log(result)
+            res.send(result)
+        })
+
     } finally {
 
     }
