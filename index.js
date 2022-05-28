@@ -50,6 +50,14 @@ async function run() {
             }
         }
 
+        // api for admin verification to be used in client side
+        app.get('/admin/:email', async (req, res) => {
+            const email = req.params.email;
+            const user = await userCollection.findOne({ email: email });
+            const isAdmin = user.role === 'admin';
+            res.send({ admin: isAdmin });
+        })
+
         // create user in mongodb and issue jwt token for client
         app.put('/user/:email', async (req, res) => {
             const email = req.params.email;
