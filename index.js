@@ -58,6 +58,22 @@ async function run() {
             res.send({ admin: isAdmin });
         })
 
+        app.put('/user/admin/:email', verifyJWT, verifyAdmin, async (req, res) => {
+            const email = req.params.email;
+            const filter = { email: email };
+            const updatedDoc = {
+                $set: { role: 'admin' },
+            }
+            const result = await userCollection.updateOne(filter, updatedDoc)
+            res.send(result)
+        })
+
+        // get all users
+        app.get('/users', async (req, res) => {
+            const result = await userCollection.find().toArray();
+            res.send(result)
+        })
+
         // create user in mongodb and issue jwt token for client
         app.put('/user/:email', async (req, res) => {
             const email = req.params.email;
