@@ -126,26 +126,26 @@ async function run() {
             res.send(result)
         })
 
-        // upload order to server. If already exists then replace the item
+        // upload order to the database. If already exists then replace the item
         app.post('/order', verifyJWT, async (req, res) => {
             const order = req.body;
             const result = await ordersCollection.insertOne(order);
             res.send(result)
         })
 
-        // upload review to server
+        // upload review to the database
         app.post('/addReview', verifyJWT, async (req, res) => {
             const review = req.body;
             const result = await reviewsCollection.insertOne(review);
             res.send(result)
         })
 
-        // get reviews from server 
+        // get reviews from the database 
         app.get('/reviews', async (req, res) => {
             const result = await reviewsCollection.find({}).toArray();
             res.send(result)
         })
-        // upload user's details to server
+        // upload user's details to the database
         app.put('/userDetails/:email', verifyJWT, async (req, res) => {
             const data = req.body;
             const email = req.params.email;
@@ -167,7 +167,7 @@ async function run() {
             );
         })
 
-        // upload new product to server
+        // upload new product to the database
         app.post('/addProduct', verifyJWT, async (req, res) => {
             const data = req.body;
             console.log(data)
@@ -186,7 +186,7 @@ async function run() {
         })
 
 
-        // get user's details from server 
+        // get user's details from the database 
         app.get('/userDetails/:email', verifyJWT, async (req, res) => {
             const email = req.params.email;
             const query = { email: email };
