@@ -50,7 +50,7 @@ async function run() {
             }
         }
 
-        // create user in mongodb and issue jwt token for client
+        // create user in mongodb and issue a jwt token for client
         app.put('/user/:email', async (req, res) => {
             const email = req.params.email;
             const user = req.body;
