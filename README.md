@@ -2,7 +2,7 @@
 
 ## This is an electric parts manufacturer company's website. Live site: https://manufacturer-website-af272.web.app/
 
-## In back-end, the implemented APIs are: 
+## In back-end(Server), the implemented APIs are: 
 1. Create users in MongoDB and issue a JWT token for the client
 2. Verify admin
 3. Create a new admin
