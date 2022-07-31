@@ -18,9 +18,9 @@
     "heroku": "^7.60.2",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^4.6.0",
-    "nodemon": "^2.0.16"
+    "nodemon": "^2.0.16",
+    "stripe": "^9.15.0"
   },
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/programming-hero-web-course1/manufacturer-website-server-side-sayedpritom999.git"
