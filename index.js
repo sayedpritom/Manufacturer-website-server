@@ -137,43 +137,27 @@ async function run() {
             res.send(result)
         })
 
-<<<<<<< HEAD
         // upload order to database. If already exists then replace the item
-=======
-        // upload order to the database. If already exists then replace the item
->>>>>>> 3220ad6f6608127a9e5ef96960fe03feef9d6c79
         app.post('/order', verifyJWT, async (req, res) => {
             const order = req.body;
             const result = await ordersCollection.insertOne(order);
             res.send(result)
         })
 
-<<<<<<< HEAD
         // upload review to database 
-=======
-        // upload review to the database
->>>>>>> 3220ad6f6608127a9e5ef96960fe03feef9d6c79
         app.post('/addReview', verifyJWT, async (req, res) => {
             const review = req.body;
             const result = await reviewsCollection.insertOne(review);
             res.send(result)
         })
 
-<<<<<<< HEAD
         // get reviews from database server 
-=======
-        // get reviews from the database 
->>>>>>> 3220ad6f6608127a9e5ef96960fe03feef9d6c79
         app.get('/reviews', async (req, res) => {
             const result = await reviewsCollection.find({}).toArray();
             res.send(result)
         })
-<<<<<<< HEAD
         
         // upload user's details to server
-=======
-        // upload user's details to the database
->>>>>>> 3220ad6f6608127a9e5ef96960fe03feef9d6c79
         app.put('/userDetails/:email', verifyJWT, async (req, res) => {
             const data = req.body;
             const email = req.params.email;
@@ -195,11 +179,7 @@ async function run() {
             );
         })
 
-<<<<<<< HEAD
         // upload new product to database
-=======
-        // upload new product to the database
->>>>>>> 3220ad6f6608127a9e5ef96960fe03feef9d6c79
         app.post('/addProduct', verifyJWT, async (req, res) => {
             const data = req.body;
             console.log(data)
