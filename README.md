@@ -26,7 +26,7 @@
 * Heroku(for server hosting)
 
 
-## Front-end code: https://github.com/sayedpritom999/Manufacturer-website-client
+## Front-end code: https://github.com/sayedpritom/Manufacturer-website-client
 
 ## In the front-end implemented features and functionalities of the website are:
 1. On the home page there are 5 sections(Header, Banner, Items/Parts, Introduction, Business Summary/Achievements, Reviews, and Footer)
